@@ -15,10 +15,8 @@
 ### The app senses if data connection is present and accordingly decides weather to call api or load data from database.
 <p> <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/main/app/src/main/res/raw/port.jpeg" width =200 
   height = 350/>
-
  <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/main/app/src/main/res/raw/land.jpeg" width =350 
   height = 200/>
-
   <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/main/app/src/main/res/raw/nodata.jpeg" width =200 
   height = 350/>
 </p>
