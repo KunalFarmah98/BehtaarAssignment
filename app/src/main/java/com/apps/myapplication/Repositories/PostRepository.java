@@ -6,78 +6,78 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 
-import com.apps.myapplication.Room.RepoDao;
-import com.apps.myapplication.Room.RepoModel;
-import com.apps.myapplication.Room.RepoRoomDataBase;
+import com.apps.myapplication.Room.PostDao;
+import com.apps.myapplication.Room.Post;
+import com.apps.myapplication.Room.PostRoomDataBase;
 
 import java.util.List;
 
 public class PostRepository {
-    private RepoDao repoDao;
-    private LiveData<List<RepoModel>> repos;
+    private PostDao postDao;
+    private LiveData<List<Post>> posts;
 
     public PostRepository(Application application) {
-        RepoRoomDataBase db = RepoRoomDataBase.getInstance(application);
-        repoDao = db.RepoDao();
-        repos = repoDao.getAllRepos();
+        PostRoomDataBase db = PostRoomDataBase.getInstance(application);
+        postDao = db.PostDao();
+        posts = postDao.getAllPosts();
     }
 
-    public void insert(RepoModel repo) {
-        new InsertRepoAsyncTask(repoDao).execute(repo);
+    public void insert(Post post) {
+        new InsertPostAsyncTask(postDao).execute(post);
     }
 
-    public LiveData<List<RepoModel>> getRepos() {
-        return repos;
+    public LiveData<List<Post>> getPosts() {
+        return posts;
     }
 
-    public static class InsertRepoAsyncTask extends AsyncTask<RepoModel, Void, Void> {
-        private RepoDao repoDao;
+    public static class InsertPostAsyncTask extends AsyncTask<Post, Void, Void> {
+        private PostDao postDao;
 
-        private InsertRepoAsyncTask(RepoDao repoDao) {
-            this.repoDao = repoDao;
+        private InsertPostAsyncTask(PostDao postDao) {
+            this.postDao = postDao;
         }
 
         @Override
-        protected Void doInBackground(RepoModel... repos) {
-            repoDao.insert(repos[0]);
+        protected Void doInBackground(Post... posts) {
+            postDao.insert(posts[0]);
             return null;
         }
     }
 
-    public void insertPosts(List<RepoModel> repolist) {
-        new insertAsyncTask(repoDao).execute(repolist);
+    public void insertPosts(List<Post> postlist) {
+        new insertAsyncTask(postDao).execute(postlist);
     }
 
-    private static class insertAsyncTask extends AsyncTask<List<RepoModel>, Void, Void> {
+    private static class insertAsyncTask extends AsyncTask<List<Post>, Void, Void> {
 
-        private RepoDao mAsyncTaskDao;
+        private PostDao mAsyncTaskDao;
 
-        insertAsyncTask(RepoDao dao) {
+        insertAsyncTask(PostDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(final List<RepoModel>... params) {
-            mAsyncTaskDao.insertRepos(params[0]);
+        protected Void doInBackground(final List<Post>... params) {
+            mAsyncTaskDao.insertPosts(params[0]);
             return null;
         }
     }
 
     public void deleteAll() {
-        new deleteAllAsyncTask(repoDao).execute();
+        new deleteAllAsyncTask(postDao).execute();
 
     }
 
-    private static class deleteAllAsyncTask extends AsyncTask<List<RepoModel>, Void, Void> {
+    private static class deleteAllAsyncTask extends AsyncTask<List<Post>, Void, Void> {
 
-        private RepoDao mAsyncTaskDao;
+        private PostDao mAsyncTaskDao;
 
-        deleteAllAsyncTask(RepoDao dao) {
+        deleteAllAsyncTask(PostDao dao) {
             mAsyncTaskDao = dao;
         }
 
         @Override
-        protected Void doInBackground(final List<RepoModel>... params) {
+        protected Void doInBackground(final List<Post>... params) {
             mAsyncTaskDao.deleteAll();
             return null;
         }

@@ -6,9 +6,10 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.apps.myapplication.Room.RepoModel;
+import com.apps.myapplication.Models.PostModel;
+import com.apps.myapplication.Room.Post;
+import com.apps.myapplication.Utils.API;
 
-import java.security.Permissions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WebServiceRepository {
     Application application;
-    final String BASE_URL = "https://jsonplaceholder.typicode.com/";
+    final String BASE_URL = "https://jsonplaceholder.typicode.com";
 
     public WebServiceRepository(Application application) {
         this.application = application;
@@ -38,13 +39,12 @@ public class WebServiceRepository {
     }
 
 
-    List<RepoModel> webserviceResponseList = new ArrayList<>();
+    List<Post> webserviceResponseList = new ArrayList<>();
 
-    public LiveData<List<RepoModel>> providesWebService(final int page_number) {
+    public LiveData<List<Post>> providesWebService() {
 
-        final MutableLiveData<List<RepoModel>> data = new MutableLiveData<>();
+        final MutableLiveData<List<Post>> data = new MutableLiveData<>();
 
-        String response = "";
         try {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -54,22 +54,25 @@ public class WebServiceRepository {
 
 
             //Defining retrofit api service
-            APIService service = retrofit.create(APIService.class);
-            service.makeRequest(page_number, 10).enqueue(new Callback<List<Repo>>() {
+            API api = retrofit.create(API.class);
+            api.getPosts().enqueue(new Callback<List<PostModel>>() {
                 @Override
-                public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-//                    Log.d("url", String.valueOf(call.request().url()));
-//                    Log.d("Repository", "Response::::" + response.body());
+                public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
+                    Log.d("url", String.valueOf(call.request().url()));
+                    Log.d("Post", "Response::::" + response.body());
                     webserviceResponseList = parseJson(response.body());
-//                    Log.d("webServiceResponseList", String.valueOf(webserviceResponseList.size()));
+                    Log.d("webServiceResponseList", String.valueOf(webserviceResponseList.size()));
                     PostRepository postRoomDBRepository = new PostRepository(application);
-                    postRoomDBRepository.insertPosts(webserviceResponseList);
+                    for( Post post : webserviceResponseList) {
+                        postRoomDBRepository.insert(post);
+                        Log.d("Data:",post.getUserId()+"\t"+post.getBody()+"\n"+post.getTitle());
+                    }
                     data.setValue(webserviceResponseList);
 
                 }
 
                 @Override
-                public void onFailure(Call<List<Repo>> call, Throwable t) {
+                public void onFailure(Call<List<PostModel>> call, Throwable t) {
 //                    Log.d("url", String.valueOf(call.request().url()));
 //                    Log.d("Repository", "Failed:::");
                 }
@@ -78,74 +81,27 @@ public class WebServiceRepository {
             e.printStackTrace();
         }
         return data;
-
     }
 
     // getting data ready for saving in database
-    private List<RepoModel> parseJson(List<Repo> response) {
+    private List<Post> parseJson(List<PostModel> response) {
 
-        List<RepoModel> apiResults = new ArrayList<>();
-
-
+        List<Post> apiResults = new ArrayList<>();
         for (int i = 0; i < response.size(); i++) {
-            Repo object = response.get(i);
-            RepoModel repo = new RepoModel();
-            repo.setId(object.getNodeId());
-            String name, description;
+            PostModel object = response.get(i);
+            Post post = new Post();
+            String title, body;
             try {
-                name = object.getName();
-                description = object.getDescription();
+                title = object.getTitle();
+                body = object.getBody();
             } catch (Exception e) {
-                name = description = "Not Available";
+                title = body = "Not Available";
             }
-
-
-            repo.setName(name);
-            repo.setDescription(description);
-
-            int opencnt;
-            try {
-                opencnt = object.getOpenIssues();
-            } catch (Exception e) {
-                opencnt = 0;
-            }
-
-            repo.setOpen_cont(opencnt);
-            License license_ = object.getLicense();
-            String lkey, lname, lnid, lspdx, lurl;
-            try {
-                lkey = license_.getKey();
-                lname = license_.getName();
-                lnid = license_.getNodeId();
-                lspdx = license_.getSpdxId();
-                lurl = license_.getUrl();
-            } catch (Exception e) {
-                lkey = lname = lnid = lspdx = lurl = "Not Avaialble";
-            }
-
-            repo.setLkey(lkey);
-            repo.setLname(lname);
-            repo.setLnodeId(lnid);
-            repo.setLspdxId(lspdx);
-            repo.setLurl(lurl);
-
-            Permissions permissions_ = object.getPermissions();
-            boolean admin, push, pull;
-
-            try {
-                admin = permissions_.isAdmin();
-                push = permissions_.isPush();
-                pull = permissions_.isPull();
-
-            } catch (Exception e) {
-                admin = pull = push = false;
-            }
-
-            repo.setAdmin(admin);
-            repo.setPush(push);
-            repo.setPull(pull);
-
-            apiResults.add(repo);
+            post.setTitle(title);
+            post.setBody(body);
+            post.setId(object.getId());
+            post.setUserId(object.getUserId());
+            apiResults.add(post);
 //            Log.d("Entry" + String.valueOf(i), apiResults.get(i).getName() + apiResults.get(i).getPush()
 //                    + apiResults.get(i).getPull() + apiResults.get(i).getAdmin());
         }

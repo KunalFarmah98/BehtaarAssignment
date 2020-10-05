@@ -6,16 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class RepoViewModelFactory implements ViewModelProvider.Factory {
+public class PostViewModelFactory implements ViewModelProvider.Factory {
     Application mApplication;
 
-    public RepoViewModelFactory(Application mApplication) {
+    public PostViewModelFactory(Application mApplication) {
         this.mApplication = mApplication;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new RepoViewModel(mApplication);
+        return (T) new PostViewModel(mApplication);
     }
 }

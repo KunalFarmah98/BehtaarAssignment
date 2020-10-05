@@ -5,20 +5,21 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "Post")
+@Entity(tableName = "POST")
 
-public class PostModel {
-    public PostModel() {
+public class Post {
+    public Post() {
 
     }
     @NonNull
     @PrimaryKey
     int id;
+
     int userId;
     String title,body;
 
 
-    public PostModel(int id, int userId, String title, String body) {
+    public Post(int id, int userId, String title, String body) {
         this.id = id;
         this.userId = userId;
         this.title = title;

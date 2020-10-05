@@ -6,17 +6,17 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {RepoModel.class}, version = 1)
-public abstract class RepoRoomDataBase extends RoomDatabase {
+@Database(entities = {Post.class}, version = 1)
+public abstract class PostRoomDataBase extends RoomDatabase {
 
-    private static RepoRoomDataBase INSTANCE;
+    private static PostRoomDataBase INSTANCE;
 
-    public abstract RepoDao RepoDao();
+    public abstract PostDao PostDao();
 
-    public static synchronized RepoRoomDataBase getInstance(Context mContext) {
+    public static synchronized PostRoomDataBase getInstance(Context mContext) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(mContext.getApplicationContext(),
-                    RepoRoomDataBase.class, "RepoRoomDatabase")
+                    PostRoomDataBase.class, "PostRoomDatabase")
                     .fallbackToDestructiveMigration()
                     .build();
         }

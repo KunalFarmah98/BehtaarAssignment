@@ -5,35 +5,30 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.apps.kunalfarmah.kunalfarmahsbnri.Repositories.RepoRepository;
-import com.apps.kunalfarmah.kunalfarmahsbnri.Repositories.WebServiceRepository;
-import com.apps.kunalfarmah.kunalfarmahsbnri.Room.RepoModel;
+import com.apps.myapplication.Repositories.PostRepository;
+import com.apps.myapplication.Repositories.WebServiceRepository;
+import com.apps.myapplication.Room.Post;
 
 import java.util.List;
 
-public class RepoViewModel extends AndroidViewModel {
+public class PostViewModel extends AndroidViewModel {
 
-    private RepoRepository postRoomDBRepository;
-    private LiveData<List<RepoModel>> mAllRepos;
-    WebServiceRepository webServiceRepository;
-    private LiveData<List<RepoModel>> retroObservable;
+    private PostRepository postRoomDBPostsitory;
+    private LiveData<List<Post>> mAllPosts;
+    WebServiceRepository webServicePostsitory;
+    private LiveData<List<Post>> retroObservable;
 
-    public RepoViewModel(Application application) {
+    public PostViewModel(Application application) {
         super(application);
-        postRoomDBRepository = new RepoRepository(application);
+        postRoomDBPostsitory = new PostRepository(application);
         // clearing database on first time creation
-        postRoomDBRepository.deleteAll();
-        webServiceRepository = new WebServiceRepository(application);
-        retroObservable = webServiceRepository.providesWebService(1);
-        mAllRepos = postRoomDBRepository.getRepos();
+//        postRoomDBPostsitory.deleteAll();
+        webServicePostsitory = new WebServiceRepository(application);
+        retroObservable = webServicePostsitory.providesWebService();
+        mAllPosts = postRoomDBPostsitory.getPosts();
     }
 
-    public LiveData<List<RepoModel>> getRepos() {
-        return mAllRepos;
-    }
-
-    public void fetchNext(int page) {
-        retroObservable = webServiceRepository.providesWebService(page);
-        mAllRepos = postRoomDBRepository.getRepos();
+    public LiveData<List<Post>> getPosts() {
+        return mAllPosts;
     }
 }

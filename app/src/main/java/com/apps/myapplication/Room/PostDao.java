@@ -9,17 +9,17 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface RepoDao {
+public interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(RepoModel repo);
+    void insert(Post repo);
 
-    @Query("SELECT * from Repo ORDER BY ID ASC")
-    LiveData<List<RepoModel>> getAllRepos();
+    @Query("SELECT * from POST ORDER BY ID ASC")
+    LiveData<List<Post>> getAllPosts();
 
-    @Query("DELETE FROM Repo")
+    @Query("DELETE FROM POST")
     void deleteAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertRepos(List<RepoModel> repo);
+    void insertPosts(List<Post> Posts);
 
 }
