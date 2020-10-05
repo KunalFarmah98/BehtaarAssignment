@@ -13,9 +13,9 @@
 ### Everytime the app is launched, api is called and any new record is inserted into the database.
 ### If the database is empty, then internet is required to populate it for the first time, after that the data is persistently avialable offline.
 ### The app senses if data connection is present and accordingly decides weather to call api or load data from database.
-<p> <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/master/app/src/main/res/raw/port.jpg" width =200 
+<p> <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/main/app/src/main/res/raw/port.jpeg" width =200 
   height = 350/>
- <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/master/app/src/main/res/raw/land.jpg" width =350 
+ <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/main/app/src/main/res/raw/land.jpeg" width =350 
   height = 200/>
-   <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/master/app/src/main/res/raw/nodata.jpg" width =350 
+   <img hspace="10" src="https://github.com/KunalFarmah98/BehtaarAssignment/blob/main/app/src/main/res/raw/nodata.jpeg" width =350 
   height = 200/></p>
