@@ -38,7 +38,7 @@
             android:textColor="#000000"
             android:textAlignment="center"
             android:textSize="14sp"
-            android:text="No Records found in the Database.\n Please turn on the internet to fetch new items"/>
+            android:text="@string/no_internet"/>
 
         <ImageButton
             android:id="@+id/retry"
