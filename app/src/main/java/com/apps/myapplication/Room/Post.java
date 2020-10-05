@@ -11,12 +11,13 @@ public class Post {
     public Post() {
 
     }
+
     @NonNull
     @PrimaryKey
     int id;
 
     int userId;
-    String title,body;
+    String title, body;
 
 
     public Post(int id, int userId, String title, String body) {

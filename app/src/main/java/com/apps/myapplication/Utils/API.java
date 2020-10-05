@@ -1,4 +1,5 @@
 package com.apps.myapplication.Utils;
+
 import com.apps.myapplication.Models.PostModel;
 
 import java.util.List;

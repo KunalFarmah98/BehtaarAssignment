@@ -21,14 +21,16 @@ public class PostViewModel extends AndroidViewModel {
     public PostViewModel(Application application) {
         super(application);
         postRoomDBPostsitory = new PostRepository(application);
-        // clearing database on first time creation
-//        postRoomDBPostsitory.deleteAll();
         webServicePostsitory = new WebServiceRepository(application);
-        retroObservable = webServicePostsitory.providesWebService();
-        mAllPosts = postRoomDBPostsitory.getPosts();
     }
 
     public LiveData<List<Post>> getPosts() {
+        retroObservable = webServicePostsitory.providesWebService();
+        mAllPosts = postRoomDBPostsitory.getPosts();
         return mAllPosts;
+    }
+
+    public LiveData<List<Post>> getOfflinePosts() {
+        return postRoomDBPostsitory.getPosts();
     }
 }

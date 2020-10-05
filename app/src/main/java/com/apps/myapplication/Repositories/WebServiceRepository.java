@@ -53,19 +53,18 @@ public class WebServiceRepository {
                     .build();
 
 
-            //Defining retrofit api service
             API api = retrofit.create(API.class);
             api.getPosts().enqueue(new Callback<List<PostModel>>() {
                 @Override
                 public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
-                    Log.d("url", String.valueOf(call.request().url()));
-                    Log.d("Post", "Response::::" + response.body());
+//                    Log.d("url", String.valueOf(call.request().url()));
+//                    Log.d("Post", "Response::::" + response.body());
                     webserviceResponseList = parseJson(response.body());
                     Log.d("webServiceResponseList", String.valueOf(webserviceResponseList.size()));
                     PostRepository postRoomDBRepository = new PostRepository(application);
-                    for( Post post : webserviceResponseList) {
+                    for (Post post : webserviceResponseList) {
                         postRoomDBRepository.insert(post);
-                        Log.d("Data:",post.getUserId()+"\t"+post.getBody()+"\n"+post.getTitle());
+//                        Log.d("Data:", post.getUserId() + "\t" + post.getBody() + "\n" + post.getTitle());
                     }
                     data.setValue(webserviceResponseList);
 
@@ -83,7 +82,6 @@ public class WebServiceRepository {
         return data;
     }
 
-    // getting data ready for saving in database
     private List<Post> parseJson(List<PostModel> response) {
 
         List<Post> apiResults = new ArrayList<>();
